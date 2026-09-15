@@ -29,8 +29,11 @@ class Settings(BaseSettings):
     redis_url: str = ""
 
     # AI — required from Phase 7 onward, unused in Phase 1
+    llm_provider: str = "gemini"  # "gemini" (free) or "anthropic" (paid)
+    google_api_key: str = ""
+    gemini_model: str = "gemini-flash-latest"
     anthropic_api_key: str = ""
-    claude_model: str = "claude-sonnet-4-5"
+    claude_model: str = "claude-sonnet-5"
 
     # Payment provider
     payment_provider: str = "mock"
@@ -40,7 +43,8 @@ class Settings(BaseSettings):
 
     # Dev auth
     dev_user_header: str = "X-User-ID"
-
+    enable_scheduler: bool = True
+    scheduler_interval_seconds: int = 60
 
 @lru_cache
 def get_settings() -> Settings:
