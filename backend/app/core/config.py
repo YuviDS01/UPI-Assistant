@@ -46,6 +46,11 @@ class Settings(BaseSettings):
     enable_scheduler: bool = True
     scheduler_interval_seconds: int = 60
 
+@property
+def paytm_base_url(self) -> str:
+        # Staging vs production base URL, per business.paytm.com/docs.
+        return "https://securegw-stage.paytm.in" if self.paytm_env == "staging" else "https://securegw.paytm.in"
+
 @lru_cache
 def get_settings() -> Settings:
     """

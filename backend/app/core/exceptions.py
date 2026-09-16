@@ -82,3 +82,8 @@ class ApprovalExpiredError(AppException):
 class PaymentProviderError(AppException):
     status_code = 502
     error_code = "PAYMENT_PROVIDER_ERROR"
+
+
+class RateLimitExceededError(AppException):
+    status_code = 429
+    error_code = "RATE_LIMITED"

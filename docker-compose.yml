@@ -17,6 +17,21 @@ services:
       timeout: 5s
       retries: 10
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: upi_frontend
+    restart: unless-stopped
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
   redis:
     image: redis:7-alpine
     container_name: upi_redis
@@ -49,3 +64,5 @@ services:
 
 volumes:
   upi_pg_data:
+
+  

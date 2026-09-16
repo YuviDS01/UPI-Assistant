@@ -1,13 +1,12 @@
 """
-Builds and compiles the LangGraph. MemorySaver is used as the checkpointer
-for now (Phase 8) — Phase 9 upgrades this to a Postgres-backed checkpointer
-so an in-progress approval workflow survives a server restart, per
-docs/architecture.md §16 ("do not rely on only in-memory state").
+Builds and compiles the LangGraph. Checkpointer is Postgres-backed
+(app.agent.checkpointer) as of Phase 9 — an approval-pending conversation
+now survives a server restart.
 """
 
-from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, StateGraph
 
+from app.agent.checkpointer import get_checkpointer
 from app.agent.nodes.cancel_mandate import cancel_mandate_node
 from app.agent.nodes.classify_intent import classify_intent
 from app.agent.nodes.create_mandate import create_mandate_node
@@ -60,7 +59,7 @@ def build_graph():
     ]:
         graph.add_edge(node_name, END)
 
-    return graph.compile(checkpointer=MemorySaver())
+    return graph.compile(checkpointer=get_checkpointer())
 
 
 _compiled_graph = None
